@@ -1,0 +1,848 @@
+[debug] Created tunnel using local port: '33817'
+
+[debug] SERVER: "127.0.0.1:33817"
+
+[debug] Original chart version: ""
+[debug] CHART PATH: /home/christos/k8s-prod/helm
+
+NAME:   prod
+REVISION: 1
+RELEASED: Mon Feb  3 16:35:34 2020
+CHART: prod-env-0.0.1
+USER-SUPPLIED VALUES:
+{}
+
+COMPUTED VALUES:
+chartmuseum:
+  affinity: {}
+  deployment:
+    annotations: {}
+  env:
+    open:
+      ALLOW_OVERWRITE: false
+      AUTH_ANONYMOUS_GET: true
+      CACHE_REDIS_DB: 0
+      CHART_POST_FORM_FIELD_NAME: chart
+      DEBUG: false
+      DEPTH: 0
+      DISABLE_API: false
+      DISABLE_METRICS: true
+      DISABLE_STATEFILES: false
+      INDEX_LIMIT: 0
+      LOG_JSON: true
+      PROV_POST_FORM_FIELD_NAME: prov
+      STORAGE: local
+    secret:
+      BASIC_AUTH_PASS: admin
+      BASIC_AUTH_USER: admin
+  gcp:
+    secret:
+      enabled: false
+      key: credentials.json
+  global: {}
+  image:
+    pullPolicy: IfNotPresent
+    repository: chartmuseum/chartmuseum
+    tag: v0.7.1
+  ingress:
+    annotations:
+      ingress.kubernetes.io/ssl-redirect: "false"
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    enabled: true
+    hosts:
+    - name: cm.10.0.2.15.nip.io
+      path: /
+  nodeSelector: {}
+  persistence:
+    accessMode: ReadWriteOnce
+    enabled: true
+    size: 8Gi
+  probes:
+    liveness:
+      failureThreshold: 3
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    readiness:
+      failureThreshold: 3
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+  replica:
+    annotations: {}
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 80m
+      memory: 64Mi
+  securityContext: {}
+  service:
+    annotations: {}
+    externalPort: 8080
+    type: ClusterIP
+  serviceAccount:
+    create: false
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  tolerations: []
+jenkins:
+  Agent:
+    AlwaysPullImage: false
+    Component: jenkins-slave
+    Enabled: true
+    Image: jenkins/jnlp-slave
+    ImageTag: 3.10-1
+    NodeSelector: {}
+    Privileged: false
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 200m
+        memory: 256Mi
+  Master:
+    AdminUser: admin
+    CLI: false
+    CSRF:
+      DefaultCrumbIssuer:
+        Enabled: true
+        ProxyCompatability: true
+    Component: jenkins-master
+    ContainerPort: 8080
+    CustomConfigMap: false
+    DisabledAgentProtocols:
+    - JNLP-connect
+    - JNLP2-connect
+    HealthProbeLivenessFailureThreshold: 12
+    HealthProbes: true
+    HealthProbesLivenessTimeout: 90
+    HealthProbesReadinessTimeout: 60
+    Image: jenkins/jenkins
+    ImagePullPolicy: Always
+    ImageTag: lts
+    Ingress:
+      ApiVersion: extensions/v1beta1
+    InstallPlugins:
+    - kubernetes:1.1
+    - workflow-aggregator:2.5
+    - workflow-job:2.15
+    - credentials-binding:1.13
+    - git:3.6.4
+    LoadBalancerSourceRanges:
+    - 0.0.0.0/0
+    Name: jenkins-master
+    NodeSelector: {}
+    PodAnnotations: {}
+    ServiceAnnotations: {}
+    ServicePort: 8080
+    ServiceType: LoadBalancer
+    SlaveListenerPort: 50000
+    SlaveListenerServiceAnnotations: {}
+    SlaveListenerServiceType: ClusterIP
+    Tolerations: {}
+    UsePodSecurityContext: true
+    UseSecurity: true
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 2048Mi
+      requests:
+        cpu: 50m
+        memory: 256Mi
+  NetworkPolicy:
+    ApiVersion: extensions/v1beta1
+    Enabled: false
+  Persistence:
+    AccessMode: ReadWriteOnce
+    Annotations: {}
+    Enabled: true
+    Size: 8Gi
+  global: {}
+  master:
+    CredentialsXmlSecret: jenkins-credentials
+    CustomConfigMap: true
+    DockerVM: false
+    GlobalLibraries: true
+    SecretsFilesSecret: jenkins-secrets
+    cpu: 500m
+    imageTag: 2.176.4-alpine
+    ingress:
+      annotations:
+        ingress.kubernetes.io/proxy-body-size: 50m
+        ingress.kubernetes.io/proxy-request-buffering: "off"
+        ingress.kubernetes.io/ssl-redirect: "false"
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/proxy-body-size: 50m
+        nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+        nginx.ingress.kubernetes.io/ssl-redirect: "false"
+      hostName: jenkins.10.0.2.15.nip.io
+    installPlugins:
+    - durable-task:1.28
+    - workflow-durable-task-step:2.28
+    - blueocean:1.10.1
+    - credentials:2.1.18
+    - git:3.9.1
+    - git-client:2.7.6
+    - github:1.29.3
+    - kubernetes:1.14.3
+    - pipeline-utility-steps:2.2.0
+    - pipeline-model-definition:1.3.4.1
+    - thinBackup:1.9
+    - workflow-aggregator:2.6
+    - ssh-slaves:1.29.4
+    - ssh-agent:1.17
+    - jdk-tool:1.2
+    - command-launcher:1.3
+    - github-oauth:0.31
+    - pegdown-formatter:1.3
+    memory: 500Mi
+    serviceAnnotations:
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    serviceType: ClusterIP
+  rbac:
+    apiVersion: v1beta1
+    install: true
+    roleRef: cluster-admin
+    serviceAccountName: default
+
+HOOKS:
+---
+# prod-ui-test-e0yw6
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "prod-ui-test-e0yw6"
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  initContainers:
+    - name: "test-framework"
+      image: "dduportal/bats:0.4.0"
+      command:
+      - "bash"
+      - "-c"
+      - |
+        set -ex
+        # copy bats to tools dir
+        cp -R /usr/local/libexec/ /tools/bats/
+      volumeMounts:
+      - mountPath: /tools
+        name: tools
+  containers:
+    - name: prod-ui-test
+      image: jenkins/jenkins:lts
+      command: ["/tools/bats/bats", "-t", "/tests/run.sh"]
+      volumeMounts:
+      - mountPath: /tests
+        name: tests
+        readOnly: true
+      - mountPath: /tools
+        name: tools
+  volumes:
+  - name: tests
+    configMap:
+      name: prod-jenkins-tests
+  - name: tools
+    emptyDir: {}
+  restartPolicy: Never
+MANIFEST:
+
+---
+# Source: prod-env/charts/chartmuseum/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: prod-chartmuseum
+  labels:
+    app: chartmuseum
+    chart: chartmuseum-1.6.0
+    heritage: "Tiller"
+    release: "prod"
+type: Opaque
+data:
+  BASIC_AUTH_PASS: YWRtaW4=
+  BASIC_AUTH_USER: YWRtaW4=
+---
+# Source: prod-env/charts/jenkins/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: prod-jenkins
+  labels:
+    app: prod-jenkins
+    chart: "jenkins-0.16.6"
+    release: "prod"
+    heritage: "Tiller"
+type: Opaque
+data:
+  
+  jenkins-admin-password: "VVpMNnRtaWhLUQ=="
+  
+  jenkins-admin-user: "YWRtaW4="
+---
+# Source: prod-env/charts/jenkins/templates/config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prod-jenkins
+data:
+  config.xml: |-
+    <?xml version='1.0' encoding='UTF-8'?>
+    <hudson>
+      <disabledAdministrativeMonitors/>
+      <version>lts</version>
+      <numExecutors>0</numExecutors>
+      <mode>NORMAL</mode>
+      <useSecurity>true</useSecurity>
+      <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy">
+        <denyAnonymousReadAccess>true</denyAnonymousReadAccess>
+      </authorizationStrategy>
+      <securityRealm class="hudson.security.LegacySecurityRealm"/>
+      <disableRememberMe>false</disableRememberMe>
+      <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
+      <workspaceDir>${JENKINS_HOME}/workspace/${ITEM_FULLNAME}</workspaceDir>
+      <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
+      <markupFormatter class="hudson.markup.EscapedMarkupFormatter"/>
+      <jdks/>
+      <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
+      <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
+      <clouds>
+        <org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud plugin="kubernetes@1.1">
+          <name>kubernetes</name>
+          <templates>
+            <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+              <inheritFrom></inheritFrom>
+              <name>default</name>
+              <instanceCap>2147483647</instanceCap>
+              <idleMinutes>0</idleMinutes>
+              <label>prod-jenkins-slave</label>
+              <nodeSelector></nodeSelector>
+                <nodeUsageMode>NORMAL</nodeUsageMode>
+              <volumes>
+              </volumes>
+              <containers>
+                <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+                  <name>jnlp</name>
+                  <image>jenkins/jnlp-slave:3.10-1</image>
+                  <privileged>false</privileged>
+                  <alwaysPullImage>false</alwaysPullImage>
+                  <workingDir>/home/jenkins</workingDir>
+                  <command></command>
+                  <args>${computer.jnlpmac} ${computer.name}</args>
+                  <ttyEnabled>false</ttyEnabled>
+                  # Resources configuration is a little hacky. This was to prevent breaking
+                  # changes, and should be cleanned up in the future once everybody had
+                  # enough time to migrate.
+                  <resourceRequestCpu>200m</resourceRequestCpu>
+                  <resourceRequestMemory>256Mi</resourceRequestMemory>
+                  <resourceLimitCpu>200m</resourceLimitCpu>
+                  <resourceLimitMemory>256Mi</resourceLimitMemory>
+                  <envVars>
+                    <org.csanchez.jenkins.plugins.kubernetes.ContainerEnvVar>
+                      <key>JENKINS_URL</key>
+                      <value>http://prod-jenkins:8080</value>
+                    </org.csanchez.jenkins.plugins.kubernetes.ContainerEnvVar>
+                  </envVars>
+                </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+              </containers>
+              <envVars/>
+              <annotations/>
+              <imagePullSecrets/>
+              <nodeProperties/>
+            </org.csanchez.jenkins.plugins.kubernetes.PodTemplate></templates>
+          <serverUrl>https://kubernetes.default</serverUrl>
+          <skipTlsVerify>false</skipTlsVerify>
+          <namespace>prod</namespace>
+          <jenkinsUrl>http://prod-jenkins:8080</jenkinsUrl>
+          <jenkinsTunnel>prod-jenkins-agent:50000</jenkinsTunnel>
+          <containerCap>10</containerCap>
+          <retentionTimeout>5</retentionTimeout>
+          <connectTimeout>0</connectTimeout>
+          <readTimeout>0</readTimeout>
+        </org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud>
+      </clouds>
+      <quietPeriod>5</quietPeriod>
+      <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
+      <views>
+        <hudson.model.AllView>
+          <owner class="hudson" reference="../../.."/>
+          <name>All</name>
+          <filterExecutors>false</filterExecutors>
+          <filterQueue>false</filterQueue>
+          <properties class="hudson.model.View$PropertyList"/>
+        </hudson.model.AllView>
+      </views>
+      <primaryView>All</primaryView>
+      <slaveAgentPort>50000</slaveAgentPort>
+      <disabledAgentProtocols>
+        <string>JNLP-connect</string>
+        <string>JNLP2-connect</string>
+      </disabledAgentProtocols>
+      <label></label>
+      <crumbIssuer class="hudson.security.csrf.DefaultCrumbIssuer">
+        <excludeClientIPFromCrumb>true</excludeClientIPFromCrumb>
+      </crumbIssuer>
+      <nodeProperties/>
+      <globalNodeProperties/>
+      <noUsageStatistics>true</noUsageStatistics>
+    </hudson>
+  jenkins.CLI.xml: |-
+    <?xml version='1.1' encoding='UTF-8'?>
+    <jenkins.CLI>
+      <enabled>false</enabled>
+    </jenkins.CLI>
+  apply_config.sh: |-
+    mkdir -p /usr/share/jenkins/ref/secrets/;
+    echo "false" > /usr/share/jenkins/ref/secrets/slave-to-master-security-kill-switch;
+    cp -n /var/jenkins_config/config.xml /var/jenkins_home;
+    cp -n /var/jenkins_config/jenkins.CLI.xml /var/jenkins_home;
+    # Install missing plugins
+    cp /var/jenkins_config/plugins.txt /var/jenkins_home;
+    rm -rf /usr/share/jenkins/ref/plugins/*.lock
+    /usr/local/bin/install-plugins.sh `echo $(cat /var/jenkins_home/plugins.txt)`;
+    # Copy plugins to shared volume
+    cp -n /usr/share/jenkins/ref/plugins/* /var/jenkins_plugins;
+  plugins.txt: |-
+    kubernetes:1.1
+    workflow-aggregator:2.5
+    workflow-job:2.15
+    credentials-binding:1.13
+    git:3.6.4
+---
+# Source: prod-env/charts/jenkins/templates/test-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prod-jenkins-tests
+data:
+  run.sh: |-
+    @test "Testing Jenkins UI is accessible" {
+      curl --retry 48 --retry-delay 10 prod-jenkins:8080/login
+    }
+---
+# Source: prod-env/charts/chartmuseum/templates/pvc.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: prod-chartmuseum
+  labels:
+    app: prod-chartmuseum
+    release: "prod"
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "8Gi"
+---
+# Source: prod-env/charts/jenkins/templates/home-pvc.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: prod-jenkins
+  labels:
+    app: prod-jenkins
+    chart: "jenkins-0.16.6"
+    release: "prod"
+    heritage: "Tiller"
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "8Gi"
+---
+# Source: prod-env/charts/jenkins/templates/service-account.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prod-jenkins
+  labels:
+    app: prod-jenkins
+    chart: "jenkins-0.16.6"
+    release: "prod"
+    heritage: "Tiller"
+---
+# Source: prod-env/templates/ns.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: build
+---
+# Source: prod-env/charts/jenkins/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: prod-jenkins-role-binding
+  labels:
+    app: prod-jenkins
+    chart: "jenkins-0.16.6"
+    release: "prod"
+    heritage: "Tiller"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: prod-jenkins
+  namespace: prod
+---
+# Source: prod-env/templates/ns.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: build
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: admin
+subjects:
+- kind: ServiceAccount
+  name: build
+  namespace: prod
+---
+# Source: prod-env/templates/ns.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: build
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: admin
+subjects:
+- kind: ServiceAccount
+  name: build
+---
+# Source: prod-env/charts/chartmuseum/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: prod-chartmuseum
+  annotations:
+    {}
+    
+  labels:
+    app: chartmuseum
+    chart: chartmuseum-1.6.0
+    heritage: "Tiller"
+    release: "prod"
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: http
+    protocol: TCP
+    name: http
+  selector:
+    app: chartmuseum
+    release: "prod"
+---
+# Source: prod-env/charts/jenkins/templates/jenkins-agent-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: prod-jenkins-agent
+  labels:
+    app: prod-jenkins
+    chart: "jenkins-0.16.6"
+    component: "prod-jenkins-master"
+spec:
+  ports:
+    - port: 50000
+      targetPort: 50000
+      name: slavelistener
+  selector:
+    component: "prod-jenkins-master"
+  type: ClusterIP
+---
+# Source: prod-env/charts/jenkins/templates/jenkins-master-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: prod-jenkins
+  labels:
+    app: prod-jenkins
+    heritage: "Tiller"
+    release: "prod"
+    chart: "jenkins-0.16.6"
+    component: "prod-jenkins-master"
+spec:
+  ports:
+    - port: 8080
+      name: http
+      targetPort: 8080
+      
+  selector:
+    component: "prod-jenkins-master"
+  type: LoadBalancer
+  
+  loadBalancerSourceRanges: [0.0.0.0/0]
+---
+# Source: prod-env/charts/chartmuseum/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prod-chartmuseum
+  annotations:
+    {}
+    
+  labels:
+    app: chartmuseum
+    chart: chartmuseum-1.6.0
+    heritage: "Tiller"
+    release: "prod"
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+    
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      name: prod-chartmuseum
+      annotations:
+        {}
+        
+      labels:
+        app: chartmuseum
+        release: "prod"
+    spec:
+      containers:
+      - name: chartmuseum
+        image: chartmuseum/chartmuseum:v0.7.1
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: "AUTH_ANONYMOUS_GET"
+          value: "true"
+        - name: "CHART_POST_FORM_FIELD_NAME"
+          value: "chart"
+        - name: "DISABLE_METRICS"
+          value: "true"
+        - name: "LOG_JSON"
+          value: "true"
+        - name: "PROV_POST_FORM_FIELD_NAME"
+          value: "prov"
+        - name: "STORAGE"
+          value: "local"
+        - name: "BASIC_AUTH_PASS"
+          valueFrom:
+            secretKeyRef:
+              name: prod-chartmuseum
+              key: "BASIC_AUTH_PASS"
+        - name: "BASIC_AUTH_USER"
+          valueFrom:
+            secretKeyRef:
+              name: prod-chartmuseum
+              key: "BASIC_AUTH_USER"
+        args:
+        - --port=8080
+        - --storage-local-rootdir=/storage
+        ports:
+        - name: http
+          containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+          
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+          
+        volumeMounts:
+        - mountPath: /storage
+          name: storage-volume
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 80m
+            memory: 64Mi
+          
+      volumes:
+      - name: storage-volume
+        persistentVolumeClaim:
+          claimName: prod-chartmuseum
+---
+# Source: prod-env/charts/jenkins/templates/jenkins-master-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prod-jenkins
+  labels:
+    heritage: "Tiller"
+    release: "prod"
+    chart: "jenkins-0.16.6"
+    component: "prod-jenkins-master"
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      component: "prod-jenkins-master"
+  template:
+    metadata:
+      labels:
+        app: prod-jenkins
+        heritage: "Tiller"
+        release: "prod"
+        chart: "jenkins-0.16.6"
+        component: "prod-jenkins-master"
+      annotations:
+        checksum/config: 606ea5e285e7b0925796564ccc966ee1c7b1f39bc0b60920c7d95b78206553ac
+    spec:
+      securityContext:
+        runAsUser: 0
+      serviceAccountName: prod-jenkins
+      initContainers:
+        - name: "copy-default-config"
+          image: "jenkins/jenkins:lts"
+          imagePullPolicy: "Always"
+          command: [ "sh", "/var/jenkins_config/apply_config.sh" ]
+          volumeMounts:
+            -
+              mountPath: /var/jenkins_home
+              name: jenkins-home
+            -
+              mountPath: /var/jenkins_config
+              name: jenkins-config
+            -
+              mountPath: /var/jenkins_plugins
+              name: plugin-dir
+            -
+              mountPath: /usr/share/jenkins/ref/secrets/
+              name: secrets-dir
+      containers:
+        - name: prod-jenkins
+          image: "jenkins/jenkins:lts"
+          imagePullPolicy: "Always"
+          args: [ "--argumentsRealm.passwd.$(ADMIN_USER)=$(ADMIN_PASSWORD)",  "--argumentsRealm.roles.$(ADMIN_USER)=admin"]
+          env:
+            - name: JAVA_OPTS
+              value: ""
+            - name: JENKINS_OPTS
+              value: ""
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: prod-jenkins
+                  key: jenkins-admin-password
+            - name: ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: prod-jenkins
+                  key: jenkins-admin-user
+          ports:
+            - containerPort: 8080
+              name: http
+            - containerPort: 50000
+              name: slavelistener
+          livenessProbe:
+            httpGet:
+              path: /login
+              port: http
+            initialDelaySeconds: 90
+            timeoutSeconds: 5
+            failureThreshold: 12
+          readinessProbe:
+            httpGet:
+              path: /login
+              port: http
+            initialDelaySeconds: 60
+          # Resources configuration is a little hacky. This was to prevent breaking
+          # changes, and should be cleanned up in the future once everybody had
+          # enough time to migrate.
+          resources:
+
+            limits:
+              cpu: 2000m
+              memory: 2048Mi
+            requests:
+              cpu: 50m
+              memory: 256Mi
+            
+
+          volumeMounts:
+            -
+              mountPath: /var/jenkins_home
+              name: jenkins-home
+              readOnly: false
+            -
+              mountPath: /var/jenkins_config
+              name: jenkins-config
+              readOnly: true
+            -
+              mountPath: /usr/share/jenkins/ref/plugins/
+              name: plugin-dir
+              readOnly: false
+            -
+              mountPath: /usr/share/jenkins/ref/secrets/
+              name: secrets-dir
+              readOnly: false
+      volumes:
+      - name: jenkins-config
+        configMap:
+          name: prod-jenkins
+      - name: plugin-dir
+        emptyDir: {}
+      - name: secrets-dir
+        emptyDir: {}
+      - name: jenkins-home
+        persistentVolumeClaim:
+          claimName: prod-jenkins
+---
+# Source: prod-env/charts/chartmuseum/templates/ingress.yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: prod-chartmuseum
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    
+  labels:
+    app: chartmuseum
+    chart: chartmuseum-1.6.0
+    heritage: "Tiller"
+    release: "prod"
+spec:
+  rules:
+  - host: 0
+    http:
+      paths:
+      - path: cm.10.0.2.15.nip.io
+        backend:
+          serviceName: prod-chartmuseum
+          servicePort: 8080
+      - path: /
+        backend:
+          serviceName: prod-chartmuseum
+          servicePort: 8080

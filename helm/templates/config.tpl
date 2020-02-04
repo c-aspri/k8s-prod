@@ -265,7 +265,7 @@ data:
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
       <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.26">
-        <host>10.100.198.200</host>
+        <host>167.172.178.116</host>
         <port>22</port>
         <credentialsId>docker-build</credentialsId>
         <maxNumRetries>0</maxNumRetries>
