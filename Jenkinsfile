@@ -14,7 +14,7 @@ pipeline {
     }      
   }
   environment {
-    cmAddr = "cm.34.210.146.155.nip.io"
+    cmAddr = "cm.10.0.2.15.nip.io"
   }
   stages {
     stage("deploy") {
